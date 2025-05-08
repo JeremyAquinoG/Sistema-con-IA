@@ -102,6 +102,33 @@ function App() {
     document.body.removeChild(downloadLink);
   };
 
+  const handleAnalizarArchivo = async () => {
+    if (!file) return;
+  
+    const formData = new FormData();
+    formData.append("archivo", file);
+  
+    try {
+      const response = await axios.post(getURL() + "/files/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" }
+      });
+  
+      const { camposExtraidos } = response.data;
+  
+      setTexto(prev => ({
+        ...prev,
+        certificado: camposExtraidos.numeroCertificado || "",
+        proforma: camposExtraidos.numeroProforma || "",
+        cliente: camposExtraidos.razonSocial || "",
+        estado: "Firmado"
+      }));
+    } catch (error) {
+      console.error("Error al analizar archivo:", error);
+      alert("No se pudo analizar el archivo. Verifica que sea legible.");
+    }
+  };
+  
+
   return (
     <div className="container mt-5">
       <div className="text-center mb-4">
@@ -117,11 +144,11 @@ function App() {
         <div className="row mb-3">
           <div className="col-md-6">
             <label className="form-label" htmlFor="certificado">Nro. Certificado</label>
-            <input type="text" name="certificado" id="certificado" onChange={handleChange} className="form-control"/>
+            <input type="text" name="certificado" id="certificado" value={texto.certificado} onChange={handleChange} className="form-control"/>
           </div>
           <div className="col-md-6">
             <label className="form-label" htmlFor="proforma">Nro. Proforma</label>
-            <input type="text" name="proforma" id="proforma" onChange={handleChange} className="form-control"/>
+            <input type="text" name="proforma" id="proforma" value={texto.proforma} onChange={handleChange} className="form-control"/>
           </div>
         </div>
         <div className="mb-3">
@@ -138,7 +165,7 @@ function App() {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="estado">Estado</label>
-          <input type="text" name="estado" id="estado" onChange={handleChange} className="form-control" />
+          <input type="text" name="estado" id="estado" value={texto.estado} onChange={handleChange} className="form-control" />
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="emitido">Fecha de Emision:</label>
@@ -146,11 +173,14 @@ function App() {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="cliente">Cliente</label>
-          <input type="text" name="cliente" id="cliente" onChange={handleChange} className="form-control"/>
+          <input type="text" name="cliente" id="cliente" value={texto.cliente} onChange={handleChange} className="form-control"/>
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="file">Seleccionar archivo</label>
-          <input type="file" name="file" id="file" onChange={handleFileChange} className="form-control" accept="application/pdf" />
+          <input type="file" name="file" id="file" onChange={handleFileChange} className="form-control" accept="application/pdf, image/png, image/jpeg" />
+          <button type="button" className="btn btn-warning mt-2" onClick={handleAnalizarArchivo} disabled={!file}>
+    Leer archivo con IA
+  </button>
         </div>
         <div className="text-center">
           <button type="submit" className={`btn ${buttonClicked ? 'btn-success' : 'btn-primary'} mr-2 mb-2`} disabled={!isFormComplete}>Agregar</button><br></br>
