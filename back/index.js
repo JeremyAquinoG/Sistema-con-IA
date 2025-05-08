@@ -10,9 +10,11 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
+
 // Importa los routers
 const authRoutes = require('./router/authRoutes');
 const certRoutes = require('./router/certRoutes');
+const fileRoutes = require('./router/fileRoutes');
 
 // Asegúrate de que la carpeta 'uploads' exista
 const uploadsDir = path.join(__dirname, 'uploads');
@@ -27,9 +29,12 @@ app.use(express.json()); // Este middleware debe estar presente
 // Ruta estática para servir archivos subidos
 app.use('/uploads', express.static(uploadsDir));
 
+
+
 // Usa los routers
 app.use('/api', authRoutes); // Añade prefijo '/api' a las rutas de autenticación
 app.use('/api', certRoutes); // Añade prefijo '/api' a las rutas de certificados
+app.use('/api/files', fileRoutes);
 
 app.listen(3000, () => {
   console.log("Conexión exitosa en el puerto 3000");
