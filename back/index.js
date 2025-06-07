@@ -36,10 +36,18 @@ app.use('/api', authRoutes); // Añade prefijo '/api' a las rutas de autenticaci
 app.use('/api', certRoutes); // Añade prefijo '/api' a las rutas de certificados
 app.use('/api/files', fileRoutes);
 
-app.listen(3000, () => {
-  console.log("Conexión exitosa en el puerto 3000");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en el puerto ${PORT}`);
   bootstrap();
 });
+
+
+/*app.listen(3000, () => {
+  console.log("Conexión exitosa en el puerto 3000");
+  bootstrap();
+});*/
 
 const bootstrap = async () => {
   try {
