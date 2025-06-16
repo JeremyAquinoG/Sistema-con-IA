@@ -1,8 +1,8 @@
 // src/MainRouter.jsx
 import { Routes, Route } from 'react-router-dom';
-import App from './App';
-import DisplayData from './DisplayData';
-import Login from './Login';
+import App from '../Ventanas/App';
+import DisplayData from '../DisplayData';
+import Login from '../Login/Login';
 
 function MainRouter() {
   return (

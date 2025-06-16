@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import { QRCodeCanvas } from 'qrcode.react';
-import './App.css';
-import getURL from './config';
+import '../Ventanas/App.css';
+import getURL from '../Config/config';
 import moment from 'moment-timezone';
 
 function App() {

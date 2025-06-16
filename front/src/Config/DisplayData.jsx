@@ -6,7 +6,7 @@ import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import { Worker, Viewer } from '@react-pdf-viewer/core';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import moment from 'moment-timezone';
-import './App.css';
+import '../Ventanas/App.css';
 import getURL from './config';
 
 function DisplayData() {

@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import App from './App';
-import DisplayData from './DisplayData';
-import Login from './Login';
+import App from '../Ventanas/App';
+import DisplayData from '../Config/DisplayData';
+import Login from '../Login/Login';
+import Prueba from '../Login/Prueba';
+import Dashboard from '../Ventanas/Dashboard';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -17,6 +19,7 @@ root.render(
        
         <Route path='/' element={<Login />} />
         <Route path='/data-entry' element={<App />} />
+        <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/display/:nroCertificado' element={<DisplayData />} />
       </Routes>
     </BrowserRouter>
