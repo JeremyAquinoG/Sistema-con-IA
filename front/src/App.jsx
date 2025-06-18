@@ -26,6 +26,7 @@ function App() {
   const navigate = useNavigate();
 
 
+
   useEffect(() => {
     // Verificar si todos los campos, excepto el archivo, están llenos
     const { certificado, proforma, documento, estado, emitido, cliente } = texto;
