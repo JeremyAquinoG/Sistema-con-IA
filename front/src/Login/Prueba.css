@@ -1,0 +1,105 @@
+/* LoginGlassmorphism.css */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a1a40, #1f004c);
+}
+
+.login-container {
+  display: flex;
+  width: 900px;
+  height: 500px;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: rgba(30, 30, 60, 0.4);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.login-form-section {
+  flex: 1;
+  padding: 50px;
+  color: white;
+}
+
+.login-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.login-subtitle {
+  font-size: 14px;
+  color: #ccc;
+  margin-bottom: 30px;
+}
+
+.register-link {
+  color: #6a5acd;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.login-form .form-group {
+  margin-bottom: 20px;
+}
+
+.login-form .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.login-form .form-group input {
+  width: 100%;
+  padding: 10px 15px;
+  background-color: #1e1e3f;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 14px;
+}
+
+.form-remember {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.form-remember input {
+  margin-right: 8px;
+}
+
+.login-button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(to right, #6a5acd, #483d8b);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+}
+
+.login-button:hover {
+  box-shadow: 0 0 10px #6a5acd;
+}
+
+.login-image-section {
+  flex: 1;
+  background: linear-gradient(120deg, #1e1e60, #4b0082);
+  background-image: url('https://www.transparenttextures.com/patterns/purple-blur.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
