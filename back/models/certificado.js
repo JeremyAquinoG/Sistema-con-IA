@@ -8,33 +8,93 @@ const certi = db.define("certificado", {
     allowNull: false,
     type: DataTypes.INTEGER
   },
-  certificado: {
+  nombreCertificado: {
     type: DataTypes.STRING,
-    allowNull: false 
+    allowNull: true
   },
-  proforma: {
+  numeroCertificado: {
     type: DataTypes.STRING,
-    allowNull: false 
+    allowNull: false
   },
-  documento: {
+  numeroProforma: {
     type: DataTypes.STRING,
-    allowNull: false 
+    allowNull: true
   },
-  estado: {
+  razonSocial: {
     type: DataTypes.STRING,
-    allowNull: false 
+    allowNull: true
   },
-  emitido: {
+  direccion: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  fechaCalibracion: {
     type: DataTypes.DATE,
-    allowNull: false 
-  },  
-  cliente: {
-    type: DataTypes.STRING,
-    allowNull: false 
+    allowNull: true
   },
-  file: { // Agregar campo para el archivo
+  lugarCalibracion: {
     type: DataTypes.STRING,
-    allowNull: true 
+    allowNull: true
+  },
+  fechaEmision: {
+    type: DataTypes.DATE,
+    allowNull: true
+  },
+  marca: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  modelo: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  serie: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  procedencia: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  identificacion: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  ubicacion: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  capacidadIndicacion: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  resolucion: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  divisionVerificacion: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  capacidadMinima: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  numeroDivisiones: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  claseExactitud: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  metodoCalibracion: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
+  file: {
+    type: DataTypes.STRING,
+    allowNull: true
   }
 }, {
   timestamps: false

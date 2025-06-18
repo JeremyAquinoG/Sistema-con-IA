@@ -3,6 +3,7 @@ const path = require('path');
 const moment = require('moment-timezone'); // Importar moment-timezone
 const controller = {};
 
+// Función actual que ya funciona
 controller.agregar = async (req, res) => {
   const { certificado, proforma, documento, estado, emitido, cliente } = req.body;
   const file = req.file ? req.file.filename : null;
@@ -24,6 +25,67 @@ controller.agregar = async (req, res) => {
   } catch (error) {
     console.error("Error al agregar el certificado:", error);
     return res.status(500).send({ msg: "Error al agregar el certificado", error: error.message });
+  }
+};
+
+// ✅ Nueva función para guardar los datos extraídos por OCR
+controller.guardarExtraidos = async (req, res) => {
+  const {
+    nombreCertificado,
+    numeroCertificado,
+    numeroProforma,
+    razonSocial,
+    direccion,
+    fechaCalibracion,
+    lugarCalibracion,
+    fechaEmision,
+    marca,
+    modelo,
+    serie,
+    procedencia,
+    identificacion,
+    ubicacion,
+    capacidadIndicacion,
+    resolucion,
+    divisionVerificacion,
+    capacidadMinima,
+    numeroDivisiones,
+    claseExactitud,
+    metodoCalibracion
+  } = req.body;
+
+  const file = req.file ? req.file.filename : null;
+
+  try {
+    await certi.create({
+      nombreCertificado,
+      numeroCertificado,
+      numeroProforma,
+      razonSocial,
+      direccion,
+      fechaCalibracion,
+      lugarCalibracion,
+      fechaEmision,
+      marca,
+      modelo,
+      serie,
+      procedencia,
+      identificacion,
+      ubicacion,
+      capacidadIndicacion,
+      resolucion,
+      divisionVerificacion,
+      capacidadMinima,
+      numeroDivisiones,
+      claseExactitud,
+      metodoCalibracion,
+      file
+    });
+
+    return res.send({ msg: "Datos extraídos guardados correctamente", file });
+  } catch (error) {
+    console.error("❌ Error al guardar datos extraídos:", error);
+    return res.status(500).send({ msg: "Error al guardar datos extraídos", error: error.message });
   }
 };
 
@@ -50,7 +112,7 @@ controller.getcertificado = async (req, res) => {
 controller.viewfile = async (req, res) => {
   try {
     console.log(req.query.name);
-    let name= req.query.name;
+    let name = req.query.name;
     const filePath = path.join(__dirname, '../uploads', name);
     return res.sendFile(filePath);
   } catch (error) {

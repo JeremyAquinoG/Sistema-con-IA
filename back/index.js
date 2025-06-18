@@ -45,7 +45,7 @@ const bootstrap = async () => {
   try {
     await db.authenticate();
     console.log("Inicio la base de datos");
-    await db.sync({ force: false });
+    await db.sync({ alter: true });
     console.log("Tablas agregadas");
   } catch (error) {
     console.error("Error durante la sincronización o autenticación de la base de datos:", error);
