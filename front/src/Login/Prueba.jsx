@@ -1,4 +1,3 @@
-
 import "../Login/Prueba.css";
 
 export default function LoginGlassmorphism() {
