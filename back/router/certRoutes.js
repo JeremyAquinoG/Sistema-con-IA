@@ -18,8 +18,13 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+// Rutas existentes
 Router.post("/agregar", upload.single('file'), controller.agregar);
 Router.get("/getall", controller.btnertoddos);
 Router.get("/getfile", controller.viewfile);
 Router.get("/certificado/:parametro", controller.getcertificado);
+
+//Nueva ruta para guardar datos extraídos por OCR
+Router.post("/guardar-extraidos", upload.single('file'), controller.guardarExtraidos);
+
 module.exports = Router;
