@@ -1,77 +1,260 @@
-/* Login.css - Fondo degradado azul y login centrado */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
 
-body {
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(to right, #007bff, #00c6ff); /* azul degradado */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
 
 .login-wrapper {
-  background-color: white;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  max-width: 900px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 40px;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
 }
 
-.login-left img {
-  max-width: 250px;
+.box {
+    position: relative;
+    width: 1100px;
+    height: 550px;
+    display: flex;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 123, 191, 0.15);
+    z-index: 2;
 }
 
-.login-form {
-  flex: 1;
+.form-box {
+    flex: 1;
+    padding: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.login-title {
-  font-size: 26px;
-  color: #007bff;
-  font-weight: bold;
-  margin-bottom: 20px;
-  text-align: center;
+.form-content {
+    width: 100%;
+    animation-duration: 0.6s;
+    animation-fill-mode: both;
 }
 
-.form-control {
-  border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
+.slide-in-left {
+    animation-name: slideInLeft;
 }
 
-.btn-primary {
-  background-color: #007bff;
-  border: none;
-  font-weight: bold;
-  border-radius: 8px;
-  padding: 10px;
-  width: 100%;
+.slide-in-right {
+    animation-name: slideInRight;
 }
 
-.btn-primary:hover {
-  background-color: #0056b3;
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
-.btn-link {
-  color: #007bff;
-  font-weight: 500;
-  text-decoration: none;
+@keyframes slideInRight {
+    from {
+        transform: translateX(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
-.btn-link:hover {
-  text-decoration: underline;
+form h2 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 30px;
+    font-weight: 600;
+    color: #007bbf;
 }
 
+.input-box {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 12px 40px 12px 10px;
+    border: none;
+    border-bottom: 2px solid #ddd;
+    outline: none;
+    font-size: 15px;
+    background: transparent;
+    transition: border-color 0.3s ease;
+    color: #333;
+}
+
+.input-box input:focus {
+    border-color: #007bbf;
+}
+
+.input-box label {
+    position: absolute;
+    top: -20px;
+    left: 10px;
+    font-size: 14px;
+    color: #666;
+}
+
+.input-box svg {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 20px;
+}
+
+.btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #007bbf 0%, #005c8f 100%);
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0px 8px 15px rgba(0, 123, 191, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background: linear-gradient(135deg, #005c8f 0%, #004466 100%);
+    transform: translateY(-2px);
+    box-shadow: 0px 12px 25px rgba(0, 123, 191, 0.4);
+}
+
+.toggle {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+}
+
+.toggle span {
+    color: #007bbf;
+    cursor: pointer;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.toggle span:hover {
+    color: #005c8f;
+}
+
+.side-box {
+    flex: 1;
+    background: linear-gradient(135deg, #007bbf 0%, #005c8f 50%, #2c3e50 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 60px;
+    transition: 0.5s ease-in-out;
+    color: white;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+}
+
+.side-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+}
+
+.side-box img {
+    max-width: 400px;
+    height: auto;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+    padding: 15px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+
+    backdrop-filter: blur(10px);                /* desenfoque detrás */
+    -webkit-backdrop-filter: blur(10px);        /* soporte Safari */
+    
+}
+
+.side-box h2 {
+    font-size: 38px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: white;
+    position: relative;
+    z-index: 2;
+}
+
+.side-box p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    position: relative;
+    z-index: 2;
+}
+
+/* Cuando está en modo registro */
+.login-wrapper.active .side-box {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #007bbf 100%);
+    align-items: flex-end;
+    padding-left: 0;
+    padding-right: 60px;
+    text-align: right;
+}
+
+/* Estilos para mensajes de error */
 .text-danger {
-  color: red;
-  margin-bottom: 10px;
-  font-size: 14px;
+    color: #dc3545;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 15px;
+    padding: 8px;
+    background: rgba(220, 53, 69, 0.1);
+    border-radius: 5px;
+    border-left: 3px solid #dc3545;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .box {
+        flex-direction: column;
+        height: auto;
+        width: 95%;
+        margin: 20px;
+    }
+
+    .side-box {
+        display: none;
+    }
+
+    .form-box {
+        padding: 30px;
+    }
 }

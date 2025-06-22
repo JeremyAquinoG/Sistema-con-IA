@@ -1,17 +1,18 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../Login/Login.css';
-//import logo from './logo-smc.png';
-import getURL from '../Config/config';
 import Swal from 'sweetalert2';
+import { BiUser, BiLock, BiEnvelope } from 'react-icons/bi';
+import '../Login/Login.css';
+import getURL from '../Config/config';
+import logoSMC from '../assets/smclogo.png';
 
 
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error] = useState('');
-    const [isLogin, setIsLogin] = useState(true); // Estado para cambiar entre login y registro
+    const [error, setError] = useState('');
+    const [isLogin, setIsLogin] = useState(true);
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
@@ -61,122 +62,85 @@ function Login() {
         e.preventDefault();
 
         if (!username || !password) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Campos incompletos',
-                text: 'Por favor, ingrese ambos, usuario y contraseña.',
-            });
+            setError('Por favor, ingrese ambos, usuario y contraseña.');
             return;
         }
 
         try {
-            const response = await axios.post(`${getURL()}/register`, { username, password });
-
+            const response = await axios.post(getURL() + '/register', { username, password });
             if (response.status === 201) {
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Registro exitoso!',
-                    text: 'Usuario registrado correctamente. Ahora puede iniciar sesión.',
-                    timer: 2500,
-                    showConfirmButton: false
-                });
-
-                setTimeout(() => {
-                    setIsLogin(true);
-                }, 2500);
+                setError('Usuario registrado con éxito. Ahora puede iniciar sesión.');
+                setIsLogin(true);
             } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Registro fallido',
-                    text: 'Intente nuevamente.',
-                });
+                setError('Registro fallido, intente nuevamente.');
             }
         } catch (error) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error al registrar',
-                text: error.response?.data?.message || 'Hubo un problema al registrar el usuario.',
-            });
+            setError('Registro fallido, intente nuevamente.');
             console.error('Error de registro:', error);
         }
     };
 
-
     return (
-        <div className="login-wrapper">
-            <div className="login-left">
-                <img src="https://smc-peru.com/appsmc/logo-smc.png" alt="Logo SMC" />
-            </div>
-            <div className="login-form">
-                {isLogin ? (
-                    <form onSubmit={handleLogin}>
-                        <h2 className="login-title">Iniciar Sesión</h2>
-                        {error && <p className="text-danger">{error}</p>}
-                        <div className="form-group">
-                            <label>Usuario</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                value={username}
-                                onChange={e => setUsername(e.target.value)}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label>Contraseña</label>
-                            <input
-                                type="password"
-                                className="form-control"
-                                value={password}
-                                onChange={e => setPassword(e.target.value)}
-                            />
-                        </div>
-                        <button type="submit" className="btn btn-primary">
-                            Iniciar Sesión
-                        </button>
-                        <p className="mt-3 text-center">
-                            ¿No tiene una cuenta?{' '}
-                            <button type="button" onClick={() => setIsLogin(false)} className="btn btn-link">
-                                Regístrese aquí
-                            </button>
-                        </p>
-                    </form>
-                ) : (
-                    <form onSubmit={handleRegister}>
-                        <h2 className="login-title">Registrarse</h2>
-                        {error && <p className="text-danger">{error}</p>}
-                        <div className="form-group">
-                            <label>Usuario</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                value={username}
-                                onChange={e => setUsername(e.target.value)}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label>Contraseña</label>
-                            <input
-                                type="password"
-                                className="form-control"
-                                value={password}
-                                onChange={e => setPassword(e.target.value)}
-                            />
-                        </div>
-                        <button type="submit" className="btn btn-primary">
-                            Registrarse
-                        </button>
-                        <p className="mt-3 text-center">
-                            ¿Ya tiene una cuenta?{' '}
-                            <button type="button" onClick={() => setIsLogin(true)} className="btn btn-link">
-                                Inicie sesión aquí
-                            </button>
-                        </p>
-                    </form>
-                )}
+        <div className={`login-wrapper ${isLogin ? '' : 'active'}`}>
+            <div className="box">
+                {/* Formulario */}
+                <div className="form-box">
+                    <div className={`form-content ${isLogin ? 'slide-in-left' : 'slide-in-right'}`}>
+                        <form onSubmit={isLogin ? handleLogin : handleRegister}>
+                            <h2>{isLogin ? 'Login' : 'Sign Up'}</h2>
+                            {error && <p className="text-danger" style={{ textAlign: 'center', marginBottom: '15px' }}>{error}</p>}
+
+                            <div className="input-box">
+                                <input
+                                    type="text"
+                                    required
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                />
+                                <label>Nombre de usuario</label>
+                                <BiUser />
+                            </div>
+
+                            {!isLogin && (
+                                <div className="input-box">
+                                    <input type="email" required />
+                                    <label>Email</label>
+                                    <BiEnvelope />
+                                </div>
+                            )}
+
+                            <div className="input-box">
+                                <input
+                                    type="password"
+                                    required
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                                <label>Contraseña</label>
+                                <BiLock />
+                            </div>
+
+                            <button type="submit" className="btn">{isLogin ? 'Login' : 'Sign Up'}</button>
+
+                            <p className="toggle">
+                                {isLogin ? "¿No tiene una cuenta?" : "¿Ya tiene una cuenta?"}
+                                <span onClick={() => setIsLogin(!isLogin)}>
+                                    {isLogin ? ' Regístrese aquí' : ' Inicie sesión aquí'}
+                                </span>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+
+                {/* Panel lateral */}
+                <div className="side-box">
+                     <div className="glass-bg"></div>
+                    <img src={logoSMC} alt="Logo SMC" />
+                    
+                </div>
             </div>
         </div>
     );
-
 }
 
 export default Login;

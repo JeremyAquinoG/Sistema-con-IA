@@ -118,8 +118,12 @@ function extraerCampos(texto) {
   }
 
   // Fecha de calibración
-  const fechaCalib = texto.match(/Fecha de Calibraci[oó]n\s*[:\-]?\s*(\d{4}-\d{2}-\d{2})/i);
-  campos.fechaCalibracion = fechaCalib ? fechaCalib[1] : null;
+  //const fechaCalib = texto.match(/Fecha de Calibraci[oó]n\s*[:\-]?\s*(\d{4}-\d{2}-\d{2})/i);
+  //campos.fechaCalibracion = fechaCalib ? fechaCalib[1] : null;
+
+  const fechaCalib = texto.match(/Fecha\s+de\s+Calibraci[oó]n\s*[:\-]?\s*(\d{4}[-\/\.]\d{2}[-\/\.]\d{2})/i);
+campos.fechaCalibracion = fechaCalib ? fechaCalib[1].replace(/[\/\.]/g, '-') : null;
+
 
  // Lugar de Calibración (limpio)
   const lugarRegex = /Lugar\s*de\s*Calib\s*raci[oó]n\s*[:\-]?\s*(EN\s+EL\s+LABORATORIO.*?)\s*(?:Fecha\s+de\s+Emisión|$)/i;
@@ -132,8 +136,12 @@ function extraerCampos(texto) {
   }
 
   // Fecha de emisión
-  const fechaEmi = texto.match(/Fecha de Emisi[oó]n\s*[:\-]?\s*(\d{4}-\d{2}-\d{2})/i);
-  campos.fechaEmision = fechaEmi ? fechaEmi[1] : null;
+  //const fechaEmi = texto.match(/Fecha de Emisi[oó]n\s*[:\-]?\s*(\d{4}-\d{2}-\d{2})/i);
+  //campos.fechaEmision = fechaEmi ? fechaEmi[1] : null;
+
+const fechaEmi = texto.match(/Fecha\s+de\s+Emisi[oó]n\s*[:\-]?\s*(\d{4}[-\/\.]\d{2}[-\/\.]\d{2})/i);
+campos.fechaEmision = fechaEmi ? fechaEmi[1].replace(/[\/\.]/g, '-') : null;
+
 
   // Marca, modelo, serie
   campos.marca = texto.match(/Marca\s*[:\-]?\s*(.+)/i)?.[1]?.trim() || null;
@@ -172,8 +180,16 @@ function extraerCampos(texto) {
   campos.claseExactitud = claseExactitudMatch ? claseExactitudMatch[1].trim() : null;
 
   // Método de calibración (extraer texto completo del párrafo)
-  const metodoMatch = texto.match(/M[EÉ]TODO DE CALIBRACI[ÓO]N\s*[\n\r]+([\s\S]+?)\n[A-Z]/);
-  campos.metodoCalibracion = metodoMatch ? metodoMatch[1].replace(/\s+/g, ' ').trim() : null;
+  //const metodoMatch = texto.match(/M[EÉ]TODO DE CALIBRACI[ÓO]N\s*[\n\r]+([\s\S]+?)\n[A-Z]/);
+ // campos.metodoCalibracion = metodoMatch ? metodoMatch[1].replace(/\s+/g, ' ').trim() : null;
+
+
+ const metodoMatch = texto.match(/M[ÉE]TODO DE CALIBRACI[ÓO]N\s*[:\-]?\s*([\s\S]*?)(?=\n\s*(?:Marca|RESULTADOS|OBSERVACIONES|CONDICIONES|PATRONES|CERTIFICADO|Sello|Ubicación|$))/i);
+campos.metodoCalibracion = metodoMatch
+  ? metodoMatch[1].replace(/\s{2,}/g, ' ').replace(/\r?\n|\r/g, ' ').trim()
+  : null;
+
+
 
   return campos;
 }

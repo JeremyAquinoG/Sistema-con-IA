@@ -1,47 +1,294 @@
-/* Dashboard.css */
-
 .dashboard-container {
-    display: flex;
-    height: 100vh;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
 }
 
 .sidebar {
-    width: 250px;
-    background-color: #007bff;
-    color: white;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  width: 250px;
+  background-color: #f5f5f5;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid #ddd;
 }
 
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 30px;
+.profile-section {
+  text-align: center;
+}
+
+.profile-icon {
+  font-size: 40px;
+  margin-bottom: 10px;
 }
 
 .menu {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
+  padding-top: 100px;
+  font-size: 20px;
 }
 
 .menu li {
-    padding: 12px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    cursor: pointer;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: #333;
+  margin-bottom: 60px;
+}
+
+.menu li svg {
+  margin-right: 10px;
 }
 
 .menu li:hover {
-    background-color: #0056b3;
-    border-radius: 5px;
-    padding-left: 10px;
+  background-color: #1e2e56;   /* Azul oscuro profundo */
+  color: #ffffff;              /* Texto blanco para contraste */
+  border-left: 4px solid #00d2ff;  /* Cian vibrante para resaltar */
+  border-radius: 5px;
+  transition: all 0.2s ease;
+}
+
+.bottom-toggle {
+  list-style: none;
+  padding: 20px 0 0 0;
+  border-top: 1px solid #ccc;
+  font-size: 20px;
+}
+
+.bottom-toggle li {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #333;
+  transition: all 0.2s ease;
+}
+
+.bottom-toggle li svg {
+  margin-right: 10px;
+}
+
+.bottom-toggle li:hover {
+  background-color: #e0d7ff;
+  color: #5f27cd;
+  border-left: 4px solid #5f27cd;
+  border-radius: 5px;
+}
+
+.main-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+  height: 100vh;
+  background-color: white; /* AGREGADO: Fondo blanco para toda la sección principal */
+}
+
+.navbar {
+  background-color: #2ccdc9;
+  color: #fff;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.navbar-right span {
+  margin-left: 20px;
 }
 
 .main-content {
-    flex-grow: 1;
-    background-color: #f8f9fa;
-    padding: 40px;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  justify-content: stretch;
+  align-items: stretch;
+  background-color: white; /* AGREGADO: Asegurar fondo blanco */
+}
+
+/* Corrección principal: hacer que el formulario ocupe todo el espacio sin márgenes */
+.formulario-wrapper {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  display: flex;
+  justify-content: stretch;
+  align-items: stretch;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  border-radius: 0 !important;
+  background-color: white; /* AGREGADO: Fondo blanco explícito */
+}
+
+/* Asegurar que el formulario dentro del wrapper también use todo el espacio */
+.formulario-wrapper > * {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  border-radius: 0 !important;
+  background-color: white; /* AGREGADO: Fondo blanco para elementos hijos */
+}
+
+/* Asegurar que el contenedor del componente DataEntryForm también ocupe todo el espacio */
+.formulario-wrapper .container {
+  width: 100% !important;
+  max-width: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  background-color: white !important; /* AGREGADO: Fondo blanco forzado */
+}
+
+/* Estilos para que el formulario ocupe completamente el fondo blanco */
+.formulario-expandido {
+  width: 100% !important;
+  min-height: 100vh !important;
+  height: auto !important;
+  max-width: none !important;
+  padding: 30px 40px 40px 40px;
+  margin: 0 !important;
+  background-color: white !important; /* REFORZADO: Fondo blanco forzado */
+  border-radius: 0 !important;
+  box-shadow: none;
+  box-sizing: border-box;
+}
+
+/* Eliminar márgenes del contenedor Bootstrap si existe */
+.formulario-wrapper .container.mt-5 {
+  margin-top: 0 !important;
+  border-radius: 0 !important;
+  background-color: white !important; /* AGREGADO: Fondo blanco */
+}
+
+/* Eliminar espaciado del div text-center que contiene el logo */
+.formulario-wrapper .text-center.mb-4 {
+  margin-bottom: 20px !important;
+}
+
+/* Forzar que todo el contenido del formulario ocupe el espacio completo */
+.formulario-wrapper * {
+  box-sizing: border-box;
+}
+
+/* Eliminar márgenes superior e inferior de todos los elementos del formulario */
+.formulario-wrapper .container {
+  min-height: 100vh !important;
+  height: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  padding-top: 0 !important;
+  padding-bottom: 20px !important;
+  border-radius: 0 !important;
+  background-color: white !important; /* AGREGADO: Fondo blanco */
+}
+
+/* NUEVAS REGLAS AGREGADAS PARA ELIMINAR COMPLETAMENTE LOS BORDES REDONDEADOS */
+
+/* Eliminar border-radius de todos los elementos dentro del formulario */
+.formulario-wrapper *,
+.formulario-wrapper *::before,
+.formulario-wrapper *::after,
+.main-content *,
+.main-content *::before,
+.main-content *::after {
+  border-radius: 0 !important;
+}
+
+/* Reglas específicas para elementos comunes que suelen tener border-radius */
+.formulario-wrapper .card,
+.formulario-wrapper .form-control,
+.formulario-wrapper .btn,
+.formulario-wrapper .input-group,
+.formulario-wrapper .modal,
+.formulario-wrapper .alert,
+.formulario-wrapper .badge,
+.formulario-wrapper .dropdown-menu,
+.main-content .card,
+.main-content .form-control,
+.main-content .btn,
+.main-content .input-group,
+.main-content .modal,
+.main-content .alert,
+.main-content .badge,
+.main-content .dropdown-menu {
+  border-radius: 0 !important;
+}
+
+/* Forzar que el contenedor principal del formulario no tenga bordes redondeados */
+.main-content > *,
+.main-content > * > *,
+.main-content > * > * > * {
+  border-radius: 0 !important;
+  background-color: white !important; /* AGREGADO: Fondo blanco para todos los niveles */
+}
+
+/* Regla más específica para el área blanca del formulario */
+.main-content {
+  border-radius: 0 !important;
+  overflow: auto;
+  background-color: white !important; /* AGREGADO: Fondo blanco forzado */
+}
+
+/* Si hay algún elemento con clases específicas de Bootstrap o framework */
+.rounded,
+.rounded-sm,
+.rounded-md,
+.rounded-lg,
+.rounded-xl,
+.rounded-2xl,
+.rounded-3xl,
+.rounded-full,
+.rounded-t,
+.rounded-r,
+.rounded-b,
+.rounded-l,
+.rounded-tl,
+.rounded-tr,
+.rounded-br,
+.rounded-bl {
+  border-radius: 0 !important;
+}
+
+/* REGLAS ADICIONALES PARA ASEGURAR EL FONDO BLANCO COMPLETO */
+
+/* Forzar fondo blanco en toda la jerarquía del formulario */
+.main-section,
+.main-section *,
+.main-content,
+.main-content *,
+.formulario-wrapper,
+.formulario-wrapper *,
+.formulario-expandido,
+.formulario-expandido * {
+  background-color: white !important;
+}
+
+/* Regla específica para elementos que podrían tener fondos heredados */
+div[class*="container"],
+div[class*="form"],
+div[class*="card"],
+section,
+article,
+main {
+  background-color: white !important;
+}
+
+/* Asegurar que no haya fondos transparentes que muestren el gris */
+.formulario-wrapper,
+.formulario-wrapper > div,
+.formulario-wrapper > div > div,
+.main-content > div,
+.main-content > div > div {
+  background-color: white !important;
+  background: white !important;
 }

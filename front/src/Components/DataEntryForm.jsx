@@ -12,8 +12,25 @@ function App() {
     proforma: "",
     documento: "",
     estado: "",
-    emitido: "",    
-    cliente: ""
+    emitido: "",
+    cliente: "",
+    nombreCertificado: "",
+    direccion: "",
+    fechaCalibracion: "",
+    lugarCalibracion: "",
+    marca: "",
+    modelo: "",
+    serie: "",
+    procedencia: "",
+    identificacion: "",
+    ubicacion: "",
+    capacidadIndicacion: "",
+    resolucion: "",
+    divisionVerificacion: "",
+    capacidadMinima: "",
+    numeroDivisiones: "",
+    claseExactitud: "",
+    metodoCalibracion: ""
   });
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("");
@@ -39,8 +56,8 @@ function App() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setTexto(prevState => ({
-        ...prevState,
-        [name]: value
+      ...prevState,
+      [name]: value
     }));
   };
 
@@ -63,7 +80,7 @@ function App() {
     formData.append('file', file);
 
     try {
-      const response = await axios.post(getURL()+'/agregar', formData, {
+      const response = await axios.post(getURL() + '/agregar', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -104,30 +121,54 @@ function App() {
 
   const handleAnalizarArchivo = async () => {
     if (!file) return;
-  
+
     const formData = new FormData();
     formData.append("archivo", file);
-  
+
     try {
       const response = await axios.post(getURL() + "/files/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" }
       });
-  
+
       const { camposExtraidos } = response.data;
-  
+
       setTexto(prev => ({
         ...prev,
-        certificado: camposExtraidos.numeroCertificado || "",
-        proforma: camposExtraidos.numeroProforma || "",
-        cliente: camposExtraidos.razonSocial || "",
-        estado: "Firmado"
+        certificado: camposExtraidos.numeroCertificado || prev.certificado,
+        proforma: camposExtraidos.numeroProforma || prev.proforma,
+        cliente: camposExtraidos.razonSocial || prev.cliente,
+        estado: camposExtraidos.estado || "Firmado",
+        emitido: camposExtraidos.fechaEmision || prev.emitido,
+
+        // Nuevos campos agregados
+        nombreCertificado: camposExtraidos.nombreCertificado || prev.nombreCertificado,
+        direccion: camposExtraidos.direccion || prev.direccion,
+        fechaCalibracion: camposExtraidos.fechaCalibracion || prev.fechaCalibracion,
+        lugarCalibracion: camposExtraidos.lugarCalibracion || prev.lugarCalibracion,
+        marca: camposExtraidos.marca || prev.marca,
+        modelo: camposExtraidos.modelo || prev.modelo,
+        serie: camposExtraidos.serie || prev.serie,
+        procedencia: camposExtraidos.procedencia || prev.procedencia,
+        identificacion: camposExtraidos.identificacion || prev.identificacion,
+        ubicacion: camposExtraidos.ubicacion || prev.ubicacion,
+        capacidadIndicacion: camposExtraidos.capacidadIndicacion || prev.capacidadIndicacion,
+        resolucion: camposExtraidos.resolucion || prev.resolucion,
+        divisionVerificacion: camposExtraidos.divisionVerificacion || prev.divisionVerificacion,
+        capacidadMinima: camposExtraidos.capacidadMinima || prev.capacidadMinima,
+        numeroDivisiones: camposExtraidos.numeroDivisiones || prev.numeroDivisiones,
+        claseExactitud: camposExtraidos.claseExactitud || prev.claseExactitud,
+       metodoCalibracion: camposExtraidos.metodoCalibracion
+  ? camposExtraidos.metodoCalibracion.replace(/\\["\\]/g, '').replace(/\s{2,}/g, ' ').trim()
+  : prev.metodoCalibracion,
+
       }));
     } catch (error) {
       console.error("Error al analizar archivo:", error);
       alert("No se pudo analizar el archivo. Verifica que sea legible.");
     }
   };
-  
+
+
 
   return (
     <div className="container mt-5">
@@ -140,47 +181,120 @@ function App() {
           Los datos han sido guardados con éxito.
         </div>
       )}
-      <form onSubmit={handleSubmit} className="mx-auto" style={{ maxWidth: '600px' }}>
+
+      <form className="formulario-expandido" onSubmit={handleSubmit}>
         <div className="row mb-3">
           <div className="col-md-6">
             <label className="form-label" htmlFor="certificado">Nro. Certificado</label>
-            <input type="text" name="certificado" id="certificado" value={texto.certificado} onChange={handleChange} className="form-control"/>
+            <input type="text" name="certificado" id="certificado" value={texto.certificado} onChange={handleChange} className="form-control" />
           </div>
           <div className="col-md-6">
             <label className="form-label" htmlFor="proforma">Nro. Proforma</label>
-            <input type="text" name="proforma" id="proforma" value={texto.proforma} onChange={handleChange} className="form-control"/>
+            <input type="text" name="proforma" id="proforma" value={texto.proforma} onChange={handleChange} className="form-control" />
           </div>
         </div>
         <div className="mb-3">
-          <label className="form-label" htmlFor="documento">Tipo Documento</label>
-          <select name="documento" id="documento" onChange={handleChange} className="form-control">
-            <option value="">Seleccione una opción</option>
-            <option value="CERTIFICADO">Certificado</option>
-            <option value="CERTIFICADO ACREDITADO">Certificado Acreditado</option>
-            <option value="INFORME TECNICO">Informe Técnico</option>
-            <option value="INFORME DE VERFICACION">Informe De Verificación</option>
-            <option value="INFORME DE CALIFICACION">Informe De Calificación</option>
-            <option value="CALIFICACION">Calificación</option>
-          </select>
+          <label htmlFor="nombreCertificado" className="form-label">Nombre del Certificado</label>
+          <input type="text" name="nombreCertificado" className="form-control" onChange={handleChange} value={texto.nombreCertificado} />
         </div>
         <div className="mb-3">
-          <label className="form-label" htmlFor="estado">Estado</label>
-          <input type="text" name="estado" id="estado" value={texto.estado} onChange={handleChange} className="form-control" />
-        </div>
-        <div className="mb-3">
-          <label className="form-label" htmlFor="emitido">Fecha de Emision:</label>
-          <input type="datetime-local" name="emitido" id="emitido" onChange={handleChange} className="form-control" />
+          <label htmlFor="emitido" className="form-label">Fecha de Emisión</label>
+              <input type="date" name="emitido" className="form-control" onChange={handleChange} value={texto.emitido} />
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="cliente">Cliente</label>
-          <input type="text" name="cliente" id="cliente" value={texto.cliente} onChange={handleChange} className="form-control"/>
+          <input type="text" name="cliente" id="cliente" value={texto.cliente} onChange={handleChange} className="form-control" />
+          {/* DATOS GENERALES DEL CERTIFICADO */}
+          <div className="row mb-3">
+            <div className="mb-3">
+              <label htmlFor="direccion" className="form-label">Dirección</label>
+              <input type="text" name="direccion" className="form-control" onChange={handleChange} value={texto.direccion} />
+            </div>
+          </div>
+          <div className="row mb-3">
+            <div className="col-md-6">
+              <label htmlFor="fechaCalibracion" className="form-label">Fecha de Calibración</label>
+              <input type="date" name="fechaCalibracion" className="form-control" onChange={handleChange} value={texto.fechaCalibracion} />
+            </div>
+            <div className="col-md-6">
+              <label htmlFor="lugarCalibracion" className="form-label">Lugar de Calibración</label>
+              <input type="text" name="lugarCalibracion" className="form-control" onChange={handleChange} value={texto.lugarCalibracion} />
+            </div>
+          </div>
+
+          {/* DATOS DEL EQUIPO */}
+          <div className="row mb-3">
+            <div className="col-md-4">
+              <label htmlFor="marca" className="form-label">Marca</label>
+              <input type="text" name="marca" className="form-control" onChange={handleChange} value={texto.marca} />
+            </div>
+            <div className="col-md-4">
+              <label htmlFor="modelo" className="form-label">Modelo</label>
+              <input type="text" name="modelo" className="form-control" onChange={handleChange} value={texto.modelo} />
+            </div>
+            <div className="col-md-4">
+              <label htmlFor="serie" className="form-label">Serie</label>
+              <input type="text" name="serie" className="form-control" onChange={handleChange} value={texto.serie} />
+            </div>
+          </div>
+          <div className="row mb-3">
+            <div className="col-md-4">
+              <label htmlFor="procedencia" className="form-label">Procedencia</label>
+              <input type="text" name="procedencia" className="form-control" onChange={handleChange} value={texto.procedencia} />
+            </div>
+            <div className="col-md-4">
+              <label htmlFor="identificacion" className="form-label">Identificación</label>
+              <input type="text" name="identificacion" className="form-control" onChange={handleChange} value={texto.identificacion} />
+            </div>
+            <div className="col-md-4">
+              <label htmlFor="ubicacion" className="form-label">Ubicación</label>
+              <input type="text" name="ubicacion" className="form-control" onChange={handleChange} value={texto.ubicacion} />
+            </div>
+          </div>
+
+          {/* DATOS TÉCNICOS */}
+          <div className="row mb-3">
+            <div className="col-md-4">
+              <label htmlFor="capacidadIndicacion" className="form-label">Capacidad de Indicación</label>
+              <input type="text" name="capacidadIndicacion" className="form-control" onChange={handleChange} value={texto.capacidadIndicacion} />
+            </div>
+            <div className="col-md-4">
+              <label htmlFor="resolucion" className="form-label">Resolución</label>
+              <input type="text" name="resolucion" className="form-control" onChange={handleChange} value={texto.resolucion} />
+            </div>
+            <div className="col-md-4">
+              <label htmlFor="divisionVerificacion" className="form-label">División de Verificación</label>
+              <input type="text" name="divisionVerificacion" className="form-control" onChange={handleChange} value={texto.divisionVerificacion} />
+            </div>
+          </div>
+          <div className="row mb-3">
+            <div className="col-md-4">
+              <label htmlFor="capacidadMinima" className="form-label">Capacidad Mínima</label>
+              <input type="text" name="capacidadMinima" className="form-control" onChange={handleChange} value={texto.capacidadMinima} />
+            </div>
+            <div className="col-md-4">
+              <label htmlFor="numeroDivisiones" className="form-label">N° de Divisiones</label>
+              <input type="text" name="numeroDivisiones" className="form-control" onChange={handleChange} value={texto.numeroDivisiones} />
+            </div>
+            <div className="col-md-4">
+              <label htmlFor="claseExactitud" className="form-label">Clase de Exactitud</label>
+              <input type="text" name="claseExactitud" className="form-control" onChange={handleChange} value={texto.claseExactitud} />
+            </div>
+          </div>
+
+          {/* MÉTODO DE CALIBRACIÓN */}
+          <div className="mb-3">
+            <label htmlFor="metodoCalibracion" className="form-label">Método</label>
+            <textarea name="metodoCalibracion" rows="3" className="form-control" onChange={handleChange} value={texto.metodoCalibracion}></textarea>
+          </div>
+
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="file">Seleccionar archivo</label>
           <input type="file" name="file" id="file" onChange={handleFileChange} className="form-control" accept="application/pdf, image/png, image/jpeg" />
           <button type="button" className="btn btn-warning mt-2" onClick={handleAnalizarArchivo} disabled={!file}>
-    Leer archivo con IA
-  </button>
+            Leer archivo con IA
+          </button>
         </div>
         <div className="text-center">
           <button type="submit" className={`btn ${buttonClicked ? 'btn-success' : 'btn-primary'} mr-2 mb-2`} disabled={!isFormComplete}>Agregar</button><br></br>
@@ -188,6 +302,7 @@ function App() {
           <button type="button" onClick={handleGenerateQrCode} className="btn btn-secondary mb-2" disabled={!isFormComplete}>Generar Código QR</button>
         </div>
       </form>
+
       {qrCodeUrl && (
         <div className="text-center mt-3">
           <div ref={qrRef}>
