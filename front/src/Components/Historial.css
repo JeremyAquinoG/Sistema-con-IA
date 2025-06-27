@@ -1,0 +1,34 @@
+/* HISTORIAL - NUEVAS CLASES */
+.contenedor-historial {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #f8fafc;
+  overflow: auto;
+}
+
+.encabezado-historial {
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: white;
+}
+
+.titulo-historial {
+  background-color: #198754;
+  color: white;
+  padding: 20px;
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  border-bottom: 3px solid #157347;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.cuerpo-historial {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: auto;
+}

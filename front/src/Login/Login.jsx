@@ -23,6 +23,7 @@ function Login() {
                 icon: 'warning',
                 title: 'Campos incompletos',
                 text: 'Por favor, ingrese ambos, usuario y contraseña.',
+                backdrop: 'rgba(0, 0, 0, 0.5)',
             });
             return;
         }
@@ -35,8 +36,13 @@ function Login() {
                     title: 'Bienvenido',
                     text: 'Inicio de sesión exitoso',
                     timer: 2000,
-                    showConfirmButton: false
+                    showConfirmButton: false,
+                    backdrop: 'rgba(0, 0, 0, 0.5)',
+
                 });
+                localStorage.setItem('token', response.data.token);
+localStorage.setItem('nombreUsuario', response.data.user.username);
+
 
                 setTimeout(() => {
                     navigate('/dashboard');
@@ -46,13 +52,17 @@ function Login() {
                     icon: 'error',
                     title: 'Login fallido',
                     text: 'Intente nuevamente.',
+                    backdrop: 'rgba(0, 0, 0, 0.5)',
+
                 });
             }
         } catch (error) {
             Swal.fire({
                 icon: 'error',
                 title: 'Error al iniciar sesión',
-                text: error.response?.data?.message || 'Credenciales inválidas o error del servidor.',
+                text: error.response?.data?.message || 'Credenciales inválidas o usuario no existente.',
+                backdrop: 'rgba(0, 0, 0, 0.5)',
+
             });
             console.error('Error de login:', error);
         }
@@ -69,7 +79,16 @@ function Login() {
         try {
             const response = await axios.post(getURL() + '/register', { username, password });
             if (response.status === 201) {
-                setError('Usuario registrado con éxito. Ahora puede iniciar sesión.');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Usuario registrado',
+                    text: 'Se ha registrado correctamente.',
+                    timer: 2500,
+                    showConfirmButton: false,
+                    backdrop: 'rgba(0, 0, 0, 0.5)',
+                });
+
+                setError('');
                 setIsLogin(true);
             } else {
                 setError('Registro fallido, intente nuevamente.');
@@ -79,6 +98,7 @@ function Login() {
             console.error('Error de registro:', error);
         }
     };
+
 
     return (
         <div className={`login-wrapper ${isLogin ? '' : 'active'}`}>
@@ -101,13 +121,7 @@ function Login() {
                                 <BiUser />
                             </div>
 
-                            {!isLogin && (
-                                <div className="input-box">
-                                    <input type="email" required />
-                                    <label>Email</label>
-                                    <BiEnvelope />
-                                </div>
-                            )}
+                         
 
                             <div className="input-box">
                                 <input
@@ -134,9 +148,9 @@ function Login() {
 
                 {/* Panel lateral */}
                 <div className="side-box">
-                     <div className="glass-bg"></div>
+                    <div className="glass-bg"></div>
                     <img src={logoSMC} alt="Logo SMC" />
-                    
+
                 </div>
             </div>
         </div>

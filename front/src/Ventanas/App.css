@@ -119,3 +119,194 @@ h1, h2 {
   height: 750px;
   border: none;
 }
+
+.neumorphic-ai-button {
+  position: relative;
+  padding: 12px 28px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #4b4b4b;
+  background: #f1f3f8;
+  border-radius: 50px;
+  font-family: 'Segoe UI', sans-serif;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  border: none;
+  z-index: 1;
+  box-shadow: 6px 6px 12px #d1d9e6, -6px -6px 12px #ffffff;
+  overflow: hidden;
+}
+
+/* Borde visible + animación por barrido al hacer hover */
+.neumorphic-ai-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 6px;
+  border-radius: 50px;
+  background: linear-gradient(90deg, #00f0ff, #7b2ff7, #ff00c8);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  z-index: -1;
+  transition: all 0.3s ease;
+}
+
+/* Overlay animado como barrido de luz */
+.neumorphic-ai-button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50px;
+  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.3s;
+}
+
+/* Activar barrido en hover */
+.neumorphic-ai-button:hover::after {
+  opacity: 1;
+  animation: shine-border 1.6s ease-in-out infinite;
+}
+
+@keyframes shine-border {
+  0% {
+    transform: translateX(-100%) rotate(0deg);
+  }
+  100% {
+    transform: translateX(100%) rotate(0deg);
+  }
+}
+
+/* Ícono y texto */
+.neumorphic-ai-button .icon-ia {
+  font-size: 20px;
+  color: #7a7a7a;
+  transition: all 0.3s ease;
+}
+
+.neumorphic-ai-button:hover .icon-ia {
+  color: #ffd700;
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #00c6ff, #7b2ff7, #f80759);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+
+
+
+/* Estilo general del overlay del modal */
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Contenedor del diálogo */
+.modal-dialog {
+  max-width: 420px;
+  width: 90%;
+  background-color: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  padding: 1.5rem;
+  margin-top: 200px;
+}
+
+/* Título */
+.modal-title {
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Grid del contenido */
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+/* Tarjetas de información */
+.modal-card {
+  display: flex;
+  align-items: center;
+  padding: 0.8rem 1rem;
+  border-radius: 0.75rem;
+  background-color: #f8f9fc;
+}
+
+.modal-card .icon {
+  font-size: 1.4rem;
+  margin-right: 0.75rem;
+}
+
+.modal-card .title {
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-bottom: 0.2rem;
+}
+
+.modal-card .value {
+  font-size: 0.8rem;
+}
+
+/* Colores por tipo */
+.modal-blue {
+  border-left: 4px solid #007bff;
+}
+
+.modal-yellow {
+  border-left: 4px solid #ffc107;
+}
+
+.modal-green {
+  border-left: 4px solid #28a745;
+}
+
+.modal-cyan {
+  border-left: 4px solid #17a2b8;
+}
+
+/* Botón */
+.modal-btn {
+  width: 100%;
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+/* Fondo semitransparente para el overlay */
+.swal2-container {
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(2px); /* Opcional: efecto borroso */
+}
+
+/* Fondo blanco semi-transparente del modal */
+.swal2-popup {
+  background-color: #ffffff !important;  /* blanco sólido */
+  background-image: none !important;     /* elimina cualquier degradado */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* opcional: sombra suave */
+  border-radius: 10px;                   /* redondeo opcional */
+}
+

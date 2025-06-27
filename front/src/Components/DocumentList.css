@@ -1,0 +1,200 @@
+/* ==== ICONOS DE ACCIÓN ==== */
+.icono-accion {
+  cursor: pointer;
+  font-size: 18px;
+  margin: 0 6px;
+  vertical-align: middle;
+}
+
+.icono-editar {
+  color: #f0ad4e; /* Amarillo Bootstrap */
+}
+
+.icono-eliminar {
+  color: #dc3545; /* Rojo Bootstrap */
+}
+
+
+/* ==== MODAL ESTILO VIDRIO ==== */
+.modal-content {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.modal.show.fade.d-block {
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(3px);
+}
+
+.modal-header, .modal-footer {
+  background-color: rgba(248, 249, 250, 0.9) !important;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.modal-body {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.modal-body .form-control,
+.modal-body input,
+.modal-body textarea,
+.modal-body .form-label {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  color: #333 !important;
+}
+
+.modal-body .btn {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.modal-dialog-horizontal {
+  max-width: 95vw !important;
+  width: 95vw !important;
+  margin: 2rem auto;
+}
+
+.modal-dialog-horizontal .modal-content {
+  height: auto !important;
+  min-height: 600px !important;
+  max-height: 70vh !important;
+}
+
+.modal-dialog-horizontal .modal-body {
+  max-height: calc(75vh - 120px) !important;
+  overflow-y: auto !important;
+  padding: 20px 30px !important;
+}
+
+
+/* ==== BOTONES ==== */
+.btn-pequeno {
+  padding: 10px 12px !important;
+  font-size: 13px !important;
+  border-radius: 4px !important;
+  width: 200px !important;
+  min-width: 100px;
+}
+
+.btn-rojo {
+  background-color: #dc3545 !important;
+  color: white !important;
+  border: none;
+  padding: 5px 12px;
+  font-size: 13px;
+  border-radius: 4px;
+  min-width: 100px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-rojo:hover {
+  background-color: #c82333 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+
+/* ==== CONTENEDOR GENERAL ==== */
+.contenedor-tabla {
+  flex: 1; /* 👉 ocupa solo el espacio restante sin romper el layout */
+  display: flex;
+  flex-direction: column;
+  background-color: #f8fafc;
+  overflow: auto;
+}
+
+
+/* Encabezado con fondo azul */
+.titulo-tabla {
+  background-color: #0d6efd;
+  color: white;
+  padding: 20px;
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 1px;
+  border-bottom: 3px solid #0b5ed7;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  z-index: 2;
+}
+
+/* Cuerpo desplazable (tabla) */
+.cuerpo-tabla {
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+
+/* ==== TABLA ESTILO TAILWIND-LIKE ==== */
+.tabla-estilo {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Encabezados con sticky */
+.tabla-estilo thead th {
+  background-color: #f1f5f9;
+  border-bottom: 1px solid #cbd5e1;
+  padding: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #475569;
+  opacity: 0.7;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* Filas pares de fondo claro */
+.tabla-estilo tbody tr:nth-child(even) {
+  background-color: #f8fafc;
+}
+
+/* Celdas */
+.tabla-estilo td {
+  padding: 16px;
+  font-size: 14px;
+  color: #334155;
+}
+
+/* Acciones centradas */
+.tabla-estilo .acciones {
+  text-align: center;
+}
+/* Contenedor general sigue igual */
+.contenedor-tabla {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #f8fafc;
+  overflow: auto;
+}
+
+/* Título fijo */
+.encabezado-fijo {
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* Estilo del título */
+.titulo-tabla {
+  background-color: #0d6efd;
+  color: white;
+  padding: 20px;
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 1px;
+  border-bottom: 3px solid #0b5ed7;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}

@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-import { QRCodeCanvas } from 'qrcode.react';
 import '../Ventanas/App.css';
 import getURL from '../Config/config';
 import moment from 'moment-timezone';
+import { BsStars } from 'react-icons/bs';
+import Swal from 'sweetalert2';
 
 function App() {
   const [texto, setTexto] = useState({
@@ -34,23 +35,25 @@ function App() {
   });
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("");
-  const [qrCodeUrl, setQrCodeUrl] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
   const [isFormComplete, setIsFormComplete] = useState(false);
   const [buttonClicked, setButtonClicked] = useState(false); // Nuevo estado para el color del botón
   const [isFormSubmitted, setIsFormSubmitted] = useState(false); // Nuevo estado para el botón "Siguiente"
   const qrRef = useRef();
   const navigate = useNavigate();
-
+  const [modalInfo, setModalInfo] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+const [documentos, setDocumentos] = useState([]);
 
   useEffect(() => {
     // Verificar si todos los campos, excepto el archivo, están llenos
-    const { certificado, proforma, documento, estado, emitido, cliente } = texto;
-    if (certificado && proforma && documento && estado && emitido && cliente) {
+    const { certificado, proforma,  estado, emitido, cliente } = texto;
+    if (certificado && proforma &&  estado && emitido && cliente) {
       setIsFormComplete(true);
     } else {
       setIsFormComplete(false);
     }
+    obtenerDocumentos();
   }, [texto]);
 
   const handleChange = (e) => {
@@ -65,59 +68,101 @@ function App() {
     setFile(e.target.files[0]);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  const formData = new FormData();
 
-    // Convertir la fecha de emisión a UTC antes de enviarla al servidor
-    const emitidoUTC = moment(texto.emitido).utc().format();
-    formData.append('certificado', texto.certificado);
-    formData.append('proforma', texto.proforma);
-    formData.append('documento', texto.documento);
-    formData.append('estado', texto.estado);
-    formData.append('emitido', emitidoUTC);
-    formData.append('cliente', texto.cliente);
-    formData.append('file', file);
+  const emitidoUTC = moment(texto.emitido).utc().format();
+  formData.append('nombreCertificado', texto.nombreCertificado);
+formData.append('numeroCertificado', texto.certificado);
+formData.append('numeroProforma', texto.proforma);
+formData.append('razonSocial', texto.cliente); // o texto.razonSocial si ya lo tienes así
+formData.append('direccion', texto.direccion);
+formData.append('fechaCalibracion', texto.fechaCalibracion);
+formData.append('lugarCalibracion', texto.lugarCalibracion);
+formData.append('fechaEmision', texto.emitido); // asegúrate del formato
+formData.append('marca', texto.marca);
+formData.append('modelo', texto.modelo);
+formData.append('serie', texto.serie);
+formData.append('procedencia', texto.procedencia);
+formData.append('identificacion', texto.identificacion);
+formData.append('ubicacion', texto.ubicacion);
+formData.append('capacidadIndicacion', texto.capacidadIndicacion);
+formData.append('resolucion', texto.resolucion);
+formData.append('divisionVerificacion', texto.divisionVerificacion);
+formData.append('capacidadMinima', texto.capacidadMinima);
+formData.append('numeroDivisiones', texto.numeroDivisiones);
+formData.append('claseExactitud', texto.claseExactitud);
+formData.append('metodoCalibracion', texto.metodoCalibracion);
+formData.append('file', file);
 
-    try {
-      const response = await axios.post(getURL() + '/agregar', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-      setFileName(response.data.file);
-      setShowSuccess(true);
-      setButtonClicked(true); // Cambiar color del botón después del clic
-      setIsFormSubmitted(true); // Habilitar el botón "Siguiente"
-      console.log('Datos guardados:', response.data);
-      setTimeout(() => setShowSuccess(false), 3000);
-    } catch (error) {
-      console.error('Error al enviar datos:', error);
-    }
-  };
 
-  const handleNavigate = () => {
-    navigate(`/display/${texto.certificado}`, { state: { data: texto, fileName } });
-    //navigate(`/appsmc/display/${texto.certificado}`, { state: { data: texto, fileName } });
-  };
+  try {
+    const token = localStorage.getItem('token');
+    const response = await axios.post(getURL() + '/guardar-extraidos', formData, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data'
+      }
+    });
 
-  const handleGenerateQrCode = () => {
-    const qrUrl = `${window.location.origin}/appsmc/display/${texto.certificado}`;
-    setQrCodeUrl(qrUrl);
-  };
+    setFileName(response.data.file);
+    setButtonClicked(true);
+    setIsFormSubmitted(true);
+    obtenerDocumentos();
 
-  const handleDownloadQrCode = () => {
-    const canvas = qrRef.current.querySelector('canvas');
-    const pngUrl = canvas
-      .toDataURL("image/png")
-      .replace("image/png", "image/octet-stream");
-    let downloadLink = document.createElement("a");
-    downloadLink.href = pngUrl;
-    downloadLink.download = `${texto.certificado}_QRCode.png`;
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
-  };
+    // ✅ Mostrar alerta de éxito con SweetAlert
+    Swal.fire({
+      icon: 'success',
+      title: '¡Datos guardados correctamente!',
+      text: 'El certificado ha sido registrado con éxito.',
+      confirmButtonColor: '#007bff'
+    });
+
+    // Limpiar campos después de guardar exitosamente
+setTexto({
+  certificado: "",
+  proforma: "",
+  documento: "",
+  estado: "",
+  emitido: "",
+  cliente: "",
+  nombreCertificado: "",
+  direccion: "",
+  fechaCalibracion: "",
+  lugarCalibracion: "",
+  marca: "",
+  modelo: "",
+  serie: "",
+  procedencia: "",
+  identificacion: "",
+  ubicacion: "",
+  capacidadIndicacion: "",
+  resolucion: "",
+  divisionVerificacion: "",
+  capacidadMinima: "",
+  numeroDivisiones: "",
+  claseExactitud: "",
+  metodoCalibracion: ""
+});
+
+
+
+  } catch (error) {
+    console.error('Error al enviar datos:', error);
+
+    // ❌ Mostrar alerta de error con SweetAlert
+    Swal.fire({
+      icon: 'error',
+      title: 'Error al guardar',
+      text: 'Hubo un problema al intentar guardar el certificado.',
+      confirmButtonColor: '#dc3545'
+    });
+  }
+};
+
+
+ 
 
   const handleAnalizarArchivo = async () => {
     if (!file) return;
@@ -131,6 +176,16 @@ function App() {
       });
 
       const { camposExtraidos } = response.data;
+      const { mensaje, tiempo_ms, cantidad_palabras } = response.data;
+
+      setModalInfo({
+        mensaje,
+        tiempo_ms,
+        cantidad_palabras,
+        nombreArchivo: file.name
+      });
+      setShowModal(true);
+
 
       setTexto(prev => ({
         ...prev,
@@ -157,9 +212,9 @@ function App() {
         capacidadMinima: camposExtraidos.capacidadMinima || prev.capacidadMinima,
         numeroDivisiones: camposExtraidos.numeroDivisiones || prev.numeroDivisiones,
         claseExactitud: camposExtraidos.claseExactitud || prev.claseExactitud,
-       metodoCalibracion: camposExtraidos.metodoCalibracion
-  ? camposExtraidos.metodoCalibracion.replace(/\\["\\]/g, '').replace(/\s{2,}/g, ' ').trim()
-  : prev.metodoCalibracion,
+        metodoCalibracion: camposExtraidos.metodoCalibracion
+          ? camposExtraidos.metodoCalibracion.replace(/\\["\\]/g, '').replace(/\s{2,}/g, ' ').trim()
+          : prev.metodoCalibracion,
 
       }));
     } catch (error) {
@@ -168,6 +223,15 @@ function App() {
     }
   };
 
+
+const obtenerDocumentos = async () => {
+  try {
+    const res = await axios.get(getURL() + '/getall');
+    setDocumentos(res.data);
+  } catch (error) {
+    console.error("Error al obtener documentos:", error);
+  }
+};
 
 
   return (
@@ -199,7 +263,7 @@ function App() {
         </div>
         <div className="mb-3">
           <label htmlFor="emitido" className="form-label">Fecha de Emisión</label>
-              <input type="date" name="emitido" className="form-control" onChange={handleChange} value={texto.emitido} />
+          <input type="date" name="emitido" className="form-control" onChange={handleChange} value={texto.emitido} />
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="cliente">Cliente</label>
@@ -292,26 +356,65 @@ function App() {
         <div className="mb-3">
           <label className="form-label" htmlFor="file">Seleccionar archivo</label>
           <input type="file" name="file" id="file" onChange={handleFileChange} className="form-control" accept="application/pdf, image/png, image/jpeg" />
-          <button type="button" className="btn btn-warning mt-2" onClick={handleAnalizarArchivo} disabled={!file}>
-            Leer archivo con IA
+          <button
+            type="button"
+            className="neumorphic-ai-button"
+            onClick={handleAnalizarArchivo}
+            disabled={!file}
+          >
+            <BsStars className="icon-ia" />
+            <span className="gradient-text">Completar con IA</span>
           </button>
+
         </div>
         <div className="text-center">
           <button type="submit" className={`btn ${buttonClicked ? 'btn-success' : 'btn-primary'} mr-2 mb-2`} disabled={!isFormComplete}>Agregar</button><br></br>
-          <button type="button" onClick={handleNavigate} className="btn btn-primary mr-2 mb-2" disabled={!isFormSubmitted}>Siguiente</button><br></br>
-          <button type="button" onClick={handleGenerateQrCode} className="btn btn-secondary mb-2" disabled={!isFormComplete}>Generar Código QR</button>
+
         </div>
       </form>
 
-      {qrCodeUrl && (
-        <div className="text-center mt-3">
-          <div ref={qrRef}>
-            <QRCodeCanvas value={qrCodeUrl} size={1024} style={{ width: '256px', height: '256px' }} />
+      {showModal && modalInfo && (
+  <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && setShowModal(false)}>
+    <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
+      <h5 className="modal-title">✅ Análisis Completado</h5>
+      <div className="modal-grid">
+        <div className="modal-card modal-blue">
+          <span className="icon">📄</span>
+          <div>
+            <div className="title">Archivo:</div>
+            <div className="value">{modalInfo.nombreArchivo}</div>
           </div>
-          <p>Copia el código QR y pégalo en el documento correspondiente</p>
-          <button type="button" className="btn btn-secondary" onClick={handleDownloadQrCode}>Descargar Código QR</button>
         </div>
-      )}
+        <div className="modal-card modal-yellow">
+          <span className="icon">⏱️</span>
+          <div>
+            <div className="title">Tiempo de procesamiento:</div>
+            <div className="value">{modalInfo.tiempo_ms} ms</div>
+          </div>
+        </div>
+        <div className="modal-card modal-green">
+          <span className="icon">📢</span>
+          <div>
+            <div className="title">Mensaje:</div>
+            <div className="value">{modalInfo.mensaje}</div>
+          </div>
+        </div>
+        <div className="modal-card modal-cyan">
+          <span className="icon">📝</span>
+          <div>
+            <div className="title">Palabras detectadas:</div>
+            <div className="value">{modalInfo.cantidad_palabras}</div>
+          </div>
+        </div>
+      </div>
+      <button className="btn btn-primary modal-btn" onClick={() => setShowModal(false)}>
+        Cerrar
+      </button>
+    </div>
+  </div>
+)}
+
+
     </div>
   );
 }
