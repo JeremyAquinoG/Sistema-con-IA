@@ -45,6 +45,9 @@ console.log("➡️ Enviando perfil al backend:", perfil);
       await axios.put(getURL() + "/user/actualizar", perfil, {
         headers: { Authorization: `Bearer ${token}` }
       });
+       localStorage.setItem("nombres", perfil.nombres);
+  localStorage.setItem("apellidos", perfil.apellidos);
+
 
       Swal.fire({
         icon: "success",

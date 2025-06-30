@@ -43,6 +43,18 @@ function DocumentList() {
   };
 
   const handleGuardar = async (id) => {
+  const result = await Swal.fire({
+    title: "¿Estás seguro?",
+    text: "¿Deseas guardar los cambios realizados?",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, guardar",
+    cancelButtonText: "Cancelar",
+  });
+
+  if (result.isConfirmed) {
     try {
       await axios.put(
         getURL() + `/actualizar/${id}`,
@@ -57,7 +69,7 @@ function DocumentList() {
       );
       setDocumentos(nuevosDocs);
       setEditandoId(null);
-      setShowModal(false); // Asegura cerrar el modal
+      setShowModal(false); // Cierra el modal
 
       // ✅ Mensaje de éxito
       Swal.fire({
@@ -78,7 +90,9 @@ function DocumentList() {
         text: "No se pudo guardar el documento.",
       });
     }
-  };
+  }
+};
+
 
 
 

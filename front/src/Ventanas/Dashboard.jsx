@@ -5,6 +5,8 @@ import DataEntryForm from '../Components/DataEntryForm';
 import DocumentList from '../Components/DocumentList';
 import EditarPerfil from '../Components/EditarPerfil';
 import Historial from '../Components/Historial';
+import Principal from '../Components/Principal';
+
 
 import Swal from 'sweetalert2';
 import { FaHome, FaUsers, FaChartLine, FaWallet, FaBell, FaCog, FaSignOutAlt, FaQuestionCircle, FaLanguage, FaUserCircle, FaBook } from 'react-icons/fa';
@@ -130,7 +132,7 @@ function Dashboard() {
 
                 {/* View Content */}
                 <main className="main-content">
-                    {activeView === 'home' && <h1>Bienvenido al Dashboard</h1>}
+                    {activeView === 'home' && <Principal/>}
                     {activeView === 'formulario' && (
                         <div className="formulario-wrapper">
                             <DataEntryForm />

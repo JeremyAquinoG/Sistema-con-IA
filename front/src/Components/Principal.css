@@ -1,0 +1,140 @@
+.principal-page {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  z-index: 1;
+  font-family: 'Arial', sans-serif;
+  color: #002b45;
+}
+
+
+/* Fondo oscuro opcional para legibilidad */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
+
+.contenido {
+  position: relative;
+  z-index: 3;
+  padding: 2rem;
+}
+
+.testimonio {
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  max-width: 400px;
+}
+
+.cita p {
+  font-style: italic;
+  font-size: 1rem;
+  color: #333;
+}
+
+.autor {
+  display: block;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.texto-principal .titulo {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: white;
+}
+
+.bloques-mv {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.bloque-mv {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 1.5rem;
+  border-radius: 8px;
+  flex: 1 1 300px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.tarjetas-info {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.tarjeta {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  flex: 1 1 250px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  text-align: center;
+  border-top: 5px solid #002b45;
+}
+
+.icono-tarjeta {
+  font-size: 2rem;
+  color: #002b45;
+  margin-bottom: 0.5rem;
+}
+
+.wave-top,
+.wave-bottom {
+  height: 50px;
+}
+
+.testimonio {
+  background-color: #f0f4f8;
+  padding: 30px;
+  max-width: 600px;
+  margin: 40px auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 1s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+
+.cita p {
+  font-style: italic;
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.autor {
+  font-weight: bold;
+  color: #0d3b66;
+  font-size: 1rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade {
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

@@ -223,7 +223,7 @@ h1, h2 {
 
 /* Contenedor del diálogo */
 .modal-dialog {
-  max-width: 620px;
+  max-width: 520px;
   width: 90%;
   background-color: #fff;
   border-radius: 1rem;
@@ -296,5 +296,17 @@ h1, h2 {
   border-radius: 0.5rem;
   cursor: pointer;
 }
+/* Fondo semitransparente para el overlay */
+.swal2-container {
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(2px); /* Opcional: efecto borroso */
+}
 
+/* Fondo blanco semi-transparente del modal */
+.swal2-popup {
+  background-color: #ffffff !important;  /* blanco sólido */
+  background-image: none !important;     /* elimina cualquier degradado */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* opcional: sombra suave */
+  border-radius: 10px;                   /* redondeo opcional */
+}
 
