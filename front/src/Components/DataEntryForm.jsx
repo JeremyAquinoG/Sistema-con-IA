@@ -407,6 +407,11 @@ const obtenerDocumentos = async () => {
           </div>
         </div>
       </div>
+      {/* Sugerencia de revisión */}
+      <div className="modal-suggestion">
+        <p className="suggestion-text">📌 <strong>Sugerencia:</strong> Revisa cuidadosamente los datos extraídos para asegurarte de que sean correctos antes de continuar.</p>
+      </div>
+
       <button className="btn btn-primary modal-btn" onClick={() => setShowModal(false)}>
         Cerrar
       </button>
